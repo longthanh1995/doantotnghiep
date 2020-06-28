@@ -1,0 +1,1 @@
+Your appointment with {{ $doctor->name }} has been rescheduled to {{ with(DateTimeHelper::setTimeZoneByStr($appointment->start_at, $doctorTimetable->clinic->time_zone))->format('H:i D, M, d Y') }}.

@@ -1,0 +1,54 @@
+/**
+ * - Component: Icon -
+ * ===================
+ */
+.@{namespace}.icon{};
+.@{namespace}.icon{
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-background-size: cover;
+  background-size: cover;
+  vertical-align: middle;
+  margin: 0;
+  display: inline-block;
+};
+
+//sizes
+.@{namespace}.icon{
+  &{
+    width: 24px !important;
+    height: 24px !important;
+  }
+  &.tiny {
+    width: 8px !important;
+    height: 8px !important;
+    line-height: 8px !important;
+  }
+  &.small {
+    width: 16px !important;
+    height: 16px !important;
+    line-height: 16px;
+  }
+  &.big {
+    width: 32px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+  }
+  &.huge {
+    width: 40px !important;
+    height: 40px !important;
+    line-height: 40px !important;
+  }
+  &.massive {
+    width: 48px !important;
+    height: 48px !important;
+    line-height: 48px !important;
+  }
+}
+
+//variants
+.@{namespace}.icon{
+  &.i-am-here{
+    background-image: url('@{icon-uri-base}/i-am-here.png');
+  }
+}

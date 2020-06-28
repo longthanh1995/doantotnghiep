@@ -1,0 +1,195 @@
+<div>
+    <%
+        var appointmentTypeName = (event.appointmentType && event.appointmentType.name && event.appointmentType.name.length)?event.appointmentType.name:'';
+        var firstAvailableAppointment = _.find(event.appointments, function(appointment){ return appointment.appointment_status.name !== 'Cancelled' && appointment.appointment_status.name !== 'Verification Failed' });
+        var isVerifying = (event.available == 0 && (firstAvailableAppointment && firstAvailableAppointment.appointment_status && firstAvailableAppointment.appointment_status.id == 1));
+    %>
+    <% if(appointmentTypeName.length){ %>
+    <p class="text-center">
+        <b>Appointment Type:</b>
+        <%= appointmentTypeName %>
+    </p>
+    <% } %>
+    <p class="text-center"></p>
+
+    <div class="panel-body">
+        <% if (event.appointments.length > 0) { %>
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th class="text-center">Patient</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">Patient Arrived?</th>
+                        <th class="text-center">Time</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <% _.each(event.appointments, function(appointment){ %>
+                    <%
+                                var currentTimezone = event.timezone;
+                                var startAt = moment(event.start).utcOffset(currentTimezone).tz(currentTimezone);
+                                var endAt = moment(event.end).utcOffset(currentTimezone).tz(currentTimezone);
+                            %>
+                    <tr>
+                        <td class="text-center"
+                            <% if ((appointment.appointment_status.id != 4 && appointment.booking_reason) || (appointment.appointment_status == 4 && appointment.cancel_reason)){ %>
+                            rowspan="2" style="vertical-align:middle" <% } %>>
+                            <%= appointment.patient.name %>
+                            <% if (appointment.patient.imported_name) { %>
+                            (
+                            <span data-toggle="tooltip" title="This value was imported from clinic"><i
+                                    class="fa fa-sign-in"></i></span>
+                            <%= appointment.patient.imported_name %>
+                            )
+                            <% } %>
+                        </td>
+
+                        <td class="text-center">
+                            <% if(appointment.book_source == 'M'){ %>
+                            <i class="fa fa-fw fa-mobile"></i>
+                            <% } %>
+                            <%= appointment.appointment_status.name %>
+                        </td>
+
+                        <td class="text-center">
+                            <%= appointment.has_patient_arrived ? "Yes" : "Not sure" %>
+                        </td>
+
+                        <td class="text-center">
+                            <%= startAt.format('HH:mm') %> to <%= endAt.format('HH:mm') %>
+                        </td>
+
+                        <td class="text-center">
+                            <a href="<%= appointment.format.url %>" target="_blank" class="btn btn-xs btn-info">
+                                <i class="fa fa-fw fa-info"></i>
+                                View
+                            </a>
+                            <% if (appointment.user){ %>
+                            <a class="btn btn-xs btn-default" data-action="sendMessage"
+                                data-appointment-id="<%= appointment.id %>">
+                                <i class="fa fa-envelope"></i>
+                                Send message
+                            </a>
+                            <% } %>
+
+                            <% if(appointment.is_confirmed || appointment.is_late || appointment.is_no_show){ %>
+                            <a class="btn btn-xs btn-primary" data-action="markAsVisited"
+                                title="Mark this appointment as visited" data-appointment-id="<%= appointment.id %>">
+                                <i class="fa fa-check"></i>
+                                Mark visited
+                            </a>
+                            <% } %>
+
+                            <% if(appointment.is_confirmed || appointment.is_late){ %>
+                            <a class="btn btn-xs btn-default" data-action="markAsNoShow"
+                                title="Mark this appointment as no-show" data-appointment-id="<%= appointment.id %>"
+                                data-patient-name="<%= appointment.patient.name %>"
+                                data-appointment-time="<%= startAt.format('DD/MM/YYYY HH:mm') %> - <%= endAt.format('HH:mm') %>">
+                                <i class="fa fa-check"></i>
+                                Mark no-show
+                            </a>
+                            <% } %>
+
+                            <% if(appointment.is_confirmed){ %>
+                            <a class="btn btn-xs btn-default" data-action="markAsLate"
+                                title="Mark this appointment as late" data-appointment-id="<%= appointment.id %>"
+                                data-patient-name="<%= appointment.patient.name %>"
+                                data-appointment-time="<%= startAt.format('DD/MM/YYYY HH:mm') %> - <%= endAt.format('HH:mm') %>">
+                                <i class="fa fa-check"></i>
+                                Mark late
+                            </a>
+                            <a href="" class="btn btn-xs btn-warning" data-action="reschedule"
+                                data-appointment-id="<%= appointment.id %>"
+                                data-appointment-type-id="<%= event.appointmentType.id %>"
+                                data-appointment-type-name="<%= event.appointmentType.name %>"
+                                data-appointment-type-category="<%= event.appointmentType.category %>"
+                                data-doctor-id="<%= event.doctor.id %>">
+                                <i class="fa fa-fw fa-calendar-check-o"></i>
+                                Reschedule
+                            </a>
+                            <% } %>
+                        </td>
+                    </tr>
+
+                    <% if (appointment.appointment_status.id != 4 && appointment.booking_reason){ %>
+                    <tr>
+                        <td colspan="4" class="text-center text-primary">
+                            <%= appointment.booking_reason %>
+                        </td>
+                    </tr>
+                    <% } %>
+
+                    <% if (appointment.appointment_status.id == 4 && appointment.cancel_reason){ %>
+                    <tr>
+                        <td colspan="4" class="text-center text-danger">
+                            <%= appointment.cancel_reason %>
+                        </td>
+                    </tr>
+                    <% } %>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+        <% } else { %>
+        <div class="alert alert-primary" role="alert">
+            This timeslot is available to booking
+        </div>
+
+        <% } %>
+
+        <hr />
+
+        <div class="text-right">
+            <% if (isVerifying) { %>
+            <p class="text-"><i class="fa fa-refresh fa-spin"></i> This timeslot is being booked by someone.</p>
+            <% } else { %>
+            <% if (event.isBlocked == 1) { %>
+            <p class="text-danger">
+                <i class="fa fa-exclamation-triangle"></i> This timeslot has been blocked.
+            </p>
+            <a href="#" class="btn btn-info btn-unblock-timetable" data-timetable-id="<%= event.id %>"
+                data-id="<%= event.id %>" data-action="unblockTimeslot">
+                <i class="fa fa-unlock-alt"></i>
+                Unblock
+            </a>
+            <% } %>
+
+            <% if (event.canBlock == 1) { %>
+            <a href="#" class="btn btn-warning btn-block-timetable" data-timetable-id="<%= event.id %>"
+                data-id="<%= event.id %>" data-action="blockTimeslot">
+                <i class="fa fa-fw fa-exclamation-triangle"></i>
+
+                Block
+            </a>
+            <% } %>
+
+            <%
+                    var currentTimezone = event.timezone;
+                    var date = moment(event.start).utcOffset(currentTimezone).tz(currentTimezone);
+                %>
+            <% if (event.isBlocked != 1) { %>
+            <a href="#" class="btn btn-primary btn-add-appointment-at-calendar" data-timetable-id="<%= event.id %>"
+                data-appointment-type-id="<%= event.appointmentType.id %>" data-clinic-id="<%= event.clinic.id %>"
+                data-appointment-date="<%= date.format('YYYY-MM-DD') %>" data-date="<%= date.format('YYYY-MM-DD') %>"
+                data-action="addAppointment">
+                <i class="fa fa-fw fa-plus"></i>
+
+                Add appointment
+            </a>
+            <% } %>
+
+            <% if (event.canDelete == 1) { %>
+            <a href="#" class="btn btn-danger btn-delete-timetable" data-timetable-id="<%= event.id %>"
+                data-id="<%= event.id %>" data-action="deleteTimeslot">
+                <i class="fa fa-fw fa-remove"></i>
+
+                Delete this timeslot
+            </a>
+            <% } %>
+            <% } %>
+        </div>
+    </div>
+</div>

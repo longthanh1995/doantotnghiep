@@ -1,0 +1,61 @@
+div.appointment-row {
+  border: 1px solid #ddd;
+  margin: 20px 0;
+  background: #F4F4F4;
+
+  div.appointment-user {
+    width: auto;
+    vertical-align: middle;
+    padding: 10px;
+  }
+
+  div.appointment-info {
+    padding: 20px 10px;
+    vertical-align: middle;
+
+    .appointment-info-row {
+      margin-bottom: 5px;
+
+      i {
+        font-size: 1.3em;
+        width: 25px;
+        text-align: center;
+      }
+    }
+  }
+
+  div.appointment-actions-section {
+    text-align: left;
+    padding-top: 10px;
+
+    .appointment-time {
+      .appointment-time-date {
+        font-size: 1.3em;
+        margin-bottom: 5px;
+      }
+
+      .appointment-time-hour {
+        margin-bottom: 10px;
+      }
+    }
+
+    .appointment-actions {
+      a {
+        display: inline-block;
+        margin-right: 10px;
+        color: #434A54;
+        border: 1px solid #ccc;
+        padding: 5px;
+
+        i {
+          font-size: 2em;
+          color: #1C6FC2;
+
+          &.fa-remove {
+            color: #FF5722;
+          }
+        }
+      }
+    }
+  }
+}

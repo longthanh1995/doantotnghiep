@@ -1,0 +1,12 @@
+.label[data-type="appointment-type"][data-name="Verifying"]{
+  @extend .label-default;
+}
+.label[data-type="appointment-type"][data-name="Confirmed"]{
+  @extend .label-info;
+}
+.label[data-type="appointment-type"][data-name="Visited"]{
+  @extend .label-success;
+}
+.label[data-type="appointment-type"][data-name="Cancelled"]{
+  @extend .label-danger;
+}

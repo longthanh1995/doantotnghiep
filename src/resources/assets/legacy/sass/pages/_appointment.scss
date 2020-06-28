@@ -1,0 +1,130 @@
+#appointmentSection {
+  #appointment-search {
+    margin: 40px 0 0 0;
+
+    table.appointment-search-form {
+      background: #F4F4F4;
+      border: 1px solid #8EA1C9;
+
+      td.appointment-search-form-signature {
+        font-size: 5em;
+        vertical-align: middle;
+        text-align: center;
+        color: #3F5AA9;
+        width: 30%;
+      }
+
+      td.appointment-search-form-content {
+        width: 100%;
+        padding: 20px 20px 10px 20px;
+
+        label {
+          font-weight: 100;
+        }
+
+        select, input {
+          color: #6687D0
+        }
+      }
+    }
+
+    table.appointment-search-buttons {
+      margin: 0;
+
+      td {
+        border: none;
+      }
+    }
+  }
+
+  .alert {
+    margin: 20px 0;
+  }
+}
+
+#appointmentShowRecord {
+  .appointment-show-user-section {
+    .appointment-show-user-avatar {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .appointment-show-user-info {
+      table {
+        margin: 0;
+        border: none;
+
+        th, td {
+          border: none;
+        }
+
+        td.class-a {
+          font-weight: 700;
+        }
+
+        td.appointment-record-status {
+          font-weight: 700;
+          color: #FF5722;
+        }
+      }
+    }
+  }
+
+  .appointment-detail-section {
+    margin: 20px 0;
+
+    .appointment-detail-section-heading {
+      font-size: 1.4em;
+      margin-bottom: 20px;
+    }
+
+    .appointment-detail-section-table {
+      table {
+        margin: 0;
+
+        th {
+          background: #F0F0F0;
+          text-align: left;
+          padding: 10px 20px;
+          font-weight: 100;
+          font-size: 11pt;
+
+          width: 150px;
+
+          border-bottom: 3px solid #fff;
+          border-top: 0;
+        }
+
+        td {
+          padding: 10px 20px;
+          border-bottom: 3px solid #F0F0F0;
+          border-top: 0;
+        }
+
+        tr:last-child td,
+        tr:last-child th {
+          border: none;
+        }
+      }
+    }
+  }
+
+  .appointment-confirm-section {
+    border: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+
+    .panel-heading {
+      font-size: 1.4em;
+      margin-bottom: 20px;
+      border-radius: 0;
+      border-bottom: 1px solid #4C6CC6;
+      border-top: 1px solid #4C6CC6;
+    }
+
+    .panel-body {
+
+    }
+  }
+}

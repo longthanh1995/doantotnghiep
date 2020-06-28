@@ -1,0 +1,87 @@
+<div class="cal-row-fluid" style="position: absolute; top: 0;">
+    <% events = _.groupBy(events, function(event) { %>
+        <%
+            var currentTimezone = event.timezone;
+			var date = moment(event.start).utcOffset(currentTimezone).tz(currentTimezone);
+
+            return date.format('d');
+        %>
+    <% }) %>
+
+    <%
+        var weekWidth = $("#calendar").width() / 8;
+        var startHour = moment(cal.options.time_start,"HH:mm").format("H");
+    %>
+
+    <% _.each([1, 2, 3, 4, 5, 6, 0], function(i, k) { %>
+            <% _.each(events[i], function(event){ %>
+                <%
+                    var currentTimezone = event.timezone;
+                    var currentTime = moment();
+                    var startAt = moment(event.start).utcOffset(currentTimezone).tz(currentTimezone);
+                    var endAt = moment(event.end).utcOffset(currentTimezone).tz(currentTimezone);
+
+                    var top = startAt.clone().diff(startAt.clone().set({'hour': startHour, 'minute': 0}), 'minutes') / 5 * 30;
+                %>
+
+                <% var appointmentTypeName = ''; %>
+
+                <% if(event.appointmentType && event.appointmentType.name && event.appointmentType.name.length){%>
+                <% appointmentTypeName = event.appointmentType.name; %>
+                <% } %>
+
+                <% var firstAvailableAppointment = _.find(event.appointments, function(appointment){ return appointment.appointment_status.name !== 'Cancelled' && appointment.appointment_status.name !== 'Verification Failed' }); %>
+
+                <a class="cal-cell1 day-highlight dh-<%= event['class'] %>" data-event-class="<%= event['class'] %>"
+                    style="position: absolute; top: <%= top %>px; height: <%= (event.lines * 30) %>px; left: <%= k * weekWidth + weekWidth %>px;"
+                    href="<%= event.url ? event.url : 'javascript:void(0)' %>" data-event-id="<%= event.id %>"
+                    data-toggle="tooltip"
+                    title="
+                        <%= startAt.format('HH:mm') %> - <%= endAt.format('HH:mm') %>
+                      - <%= appointmentTypeName %>
+                        <% if(firstAvailableAppointment){ %>
+                        <% if(firstAvailableAppointment.patient.national_id_number){%>
+                            -
+                            #<%= firstAvailableAppointment.patient.national_id_number %>
+                        <% } %>
+                        -
+                        <%= firstAvailableAppointment.patient.name %>
+                        <% if(firstAvailableAppointment.patient.phone_number){ %>
+                        (<%= firstAvailableAppointment.patient.phone_country_code %> <%= firstAvailableAppointment.patient.phone_number %>)
+                        <% } %>
+                        <% } else { %>
+                            <% if(event.isBlocked){ %>(Blocked)<% } %>
+                            <% if(currentTime.diff(startAt) > 0){ %>(Expired)<% } %>
+                        <% } %>
+                        <% if(firstAvailableAppointment && firstAvailableAppointment.has_patient_arrived){ %> (Patient has arrived)<% } %>
+                        "
+                >
+                    <!--<div class="cal-hours"><%= startAt.format('HH:mm') %> - <%= endAt.format('HH:mm') %></div>-->
+
+                    <span
+                       data-event-class="<%= event['class'] %>" class="event-item">
+
+						<% if(firstAvailableAppointment){ %>
+						<b>
+							<%= appointmentTypeName %>
+							<% if(firstAvailableAppointment.patient.national_id_number){%>
+							-
+							#<%= firstAvailableAppointment.patient.national_id_number %>
+							<% } %>
+							-
+							<%= firstAvailableAppointment.patient.name %>
+							<% if(firstAvailableAppointment.patient.phone_number){ %>
+							(<%= firstAvailableAppointment.patient.phone_country_code %> <%= firstAvailableAppointment.patient.phone_number %>)
+							<% } %>
+                            <% if(firstAvailableAppointment.has_patient_arrived){ %> (<i class="manadr icon i-am-here" /> Patient has arrived)<% } %>
+						</b>
+						<% } else { %>
+						<%= appointmentTypeName %>
+						<% if(event.isBlocked){ %>(Blocked)<% } %>
+						<% if(currentTime.diff(startAt) > 0){ %>(Expired)<% } %>
+						<% } %>
+                    </span>
+                </a>
+            <% }); %>
+    <% }) %>
+</div>

@@ -1,0 +1,89 @@
+.page-profile{
+  #box_basic_information{
+    >.box-body{
+      #box_basic_information__image_container{
+        position: relative;
+        
+        >img{
+          cursor: pointer;
+
+          &:hover{
+            opacity: 0.85;
+          }
+        }
+
+        >.overlay{
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+        }
+      }
+    }
+  }
+
+  #form_basic_information{
+    &{
+      .form-group{
+        margin-bottom: 0;
+      }
+      .form-control,
+      #table_edit_professional_ids,
+      button[type=submit],
+      button[type=reset],
+      #form_basic_information__select_languages_chosen{
+        display: none;
+      }
+    }
+
+    &.editing{
+      .form-group{
+        margin-bottom: 15px;
+      }
+      .form-control,
+      #form_basic_information__select_languages_chosen{
+        display: block;
+      }
+      #table_edit_professional_ids{
+        display: table;
+      }
+      button[type=submit],
+      button[type=reset],{
+        display: inline-block;
+      }
+      .form-control-static{
+        display: none;
+      }
+    }
+  }
+
+  #form_personal_contact_info{
+    &{
+      .form-group{
+        margin-bottom: 0;
+      }
+      .form-control,
+      button[type=submit],
+      button[type=reset]{
+        display: none;
+      }
+    }
+
+    &.editing{
+      .form-group{
+        margin-bottom: 15px;
+      }
+      .form-control{
+        display: block;
+      }
+      button[type=submit],
+      button[type=reset]{
+        display: inline-block;
+      }
+      .form-control-static{
+        display: none;
+      }
+    }
+  }
+}

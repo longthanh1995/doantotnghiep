@@ -1,0 +1,75 @@
+/**
+ * - Page: Clinics - Details -
+ * ===========================
+ */
+.modal-update-clinic-information{
+  #input_group_map_marker{
+    >input{
+      width: 50%;
+    }
+    >.input-group-addon{
+      cursor: pointer;
+    }
+  }
+}
+
+.page-clinics{
+  #segment_map_picker{
+    height: 300px;
+  }
+}
+
+#box_images{
+  >.box-body{
+    .@{namespace}.card{
+      &{
+        position: relative;
+        height: 80px;
+        line-height: 80px;
+        text-align: center;
+        margin-bottom: 10px;
+
+        >img{
+          max-height: 72px;
+          line-height: 80px;
+          display: inline;
+          max-width: 98%;
+        }
+        >.overlay{
+          &{
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background-color: rgba(0,0,0, 0.5);
+
+            >.tools{
+              line-height: 20px;
+
+              >.btn-box-tool{
+                &:hover{
+                  color: #FFFFFF;
+                }
+              }
+            }
+          }
+
+          &.hover{
+            display: none;
+          }
+        }
+      }
+      
+      &.active{
+        background-color: #00c0ef;
+      }
+
+      &:hover{
+        >.overlay.hover{
+          display: block;
+        }
+      }
+    }
+  }
+}

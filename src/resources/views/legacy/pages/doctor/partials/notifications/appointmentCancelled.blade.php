@@ -1,0 +1,1 @@
+Your appointment with {{ $doctor->name }} on {{ with(DateTimeHelper::setTimeZoneByStr($appointment->start_at, $doctorTimetable->clinic->time_zone))->format('H:i D, M, d Y') }} has been cancelled. Please make another appointments.

@@ -1,0 +1,384 @@
+#profileSection {
+  height: 100%;
+
+  #profileSectionMenu {
+    .list-group {
+      height: 100%;
+      box-shadow: none;
+      border-radius: 0;
+      background: #FAFAFA;
+
+      .list-group-item {
+        background: transparent;
+        color: #6687D0;
+        border: 0;
+        border-radius: 0;
+        border-left: 5px solid transparent;
+        box-shadow: none;
+        padding: 20px;
+        border-bottom: 1px solid #F0F0F0;
+        font-size: 1.1em;
+
+        &.active, &:hover {
+          border-left-color: #4C6CC6;
+        }
+      }
+    }
+  }
+
+  &.professionalWorkingPage {
+    table.list-clinics {
+      margin: 0;
+
+      tbody {
+        tr.clinic-row {
+          td {
+            border: none;
+          }
+
+          td.clinic-image {
+            vertical-align: middle;
+            text-align: center;
+          }
+
+          td.clinic-info-section {
+            vertical-align: middle;
+
+            i {
+              color: #6687D0;
+            }
+
+            .clinic-name {
+              font-size: 1.2em;
+              margin-bottom: 10px;
+            }
+
+            .clinic-address,
+            .clinic-phone-number,
+            .clinic-email {
+              margin-bottom: 5px;
+            }
+          }
+        }
+      }
+    }
+
+    .list-specialities {
+      .speciality-row {
+        margin-bottom: 20px;
+
+        .speciality-heading {
+          font-size: 1.2em;
+          color: #6687D0;
+          border-bottom: 1px solid #F0F0F0;
+          padding-bottom: 10px;
+          margin-bottom: 10px;
+
+          -ms-text-overflow: ellipsis;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        .speciality-conditions {
+          .condition-row {
+            margin-bottom: 10px;
+
+            i {
+              color: #6687D0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.qualificationPage {
+    table.list-colleges {
+      margin: 0;
+
+      tbody {
+        tr.college-row {
+          td {
+            border: none;
+          }
+
+          td.college-image {
+            width: 150px;
+            text-align: center;
+            vertical-align: middle;
+          }
+
+          td.college-info-section {
+            vertical-align: middle;
+
+            i {
+              color: #6687D0;
+            }
+
+            .college-name {
+              font-size: 1.2em;
+              margin-bottom: 10px;
+            }
+
+            .college-graduated {
+              margin-bottom: 5px;
+            }
+          }
+        }
+      }
+    }
+
+    table.list-qualifications {
+      margin: 0;
+
+      tbody {
+        td {
+          border: none;
+
+          &.qualification-date-graduated {
+            border-right: 2px solid #F0F0F0;
+            width: 100px;
+            text-align: center;
+            padding-top: 12px;
+            color: #6687D0;
+            font-weight: 700;
+          }
+
+          &.qualification-info {
+            padding-left: 30px;
+
+            .qualification-name {
+              font-size: 1.2em;
+              margin-bottom: 10px;
+            }
+
+            .qualification-address {
+              margin-bottom: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.patientRatingPage {
+    .panel.panel-patient-rating {
+      border: none;
+      box-shadow: none;
+      padding: 20px 0;
+
+      .panel-heading {
+        padding: 20px 0;
+        border-bottom: 1px solid #6687D0;
+
+        table.rating-star-table {
+          margin: 0;
+
+          td {
+            border: 0;
+            padding: 0 20px;
+          }
+
+          tr.blank-space {
+            height: 20px;
+          }
+
+          tr.rating-star-stats {
+            .rating-stats-score {
+              color: #F5A623;
+              font-size: 3em;
+            }
+
+            .star-section {
+              i {
+                font-size: 2em;
+                color: #F5A623;
+              }
+
+              margin-bottom: 10px;
+            }
+
+            .star-text {
+              margin-left: 5px;
+              font-size: 1.4em;
+            }
+          }
+
+          tr.rating-star-row {
+            height: 30px;
+
+            .progress {
+              margin: 0;
+              background: none;
+              border-radius: 0;
+
+              .progress-bar-star-5 {
+                background-color: #1B72C8;
+              }
+
+              .progress-bar-star-4 {
+                background-color: #1D96BB;
+              }
+
+              .progress-bar-star-3 {
+                background-color: #0A905F;
+              }
+
+              .progress-bar-star-2 {
+                background-color: #8CBD3F;
+              }
+
+              .progress-bar-star-1 {
+                background-color: #F1E70D;
+              }
+            }
+
+            .fa-star-o {
+              font-size: 1.4em;
+            }
+          }
+        }
+      }
+
+      .panel-body {
+        margin: 0;
+        padding: 20px;
+
+        .list-ratings {
+          table {
+            max-width: 700px;
+            margin: 0 auto;
+
+            td {
+              border: none;
+            }
+
+            tr.blank-space {
+              &, td {
+                margin: 0;
+                padding: 0;
+              }
+
+              hr {
+                margin-top: 10px;
+                margin-bottom: 20px;
+              }
+            }
+
+            td.rating-star {
+              width: 20%;
+              text-align: center;
+
+              .rating-star-icon-score {
+                margin-bottom: 10px;
+
+                i {
+                  font-size: 2em;
+                  color: #F5A623;
+                }
+
+                span {
+                  color: #6687D0;
+                  font-size: 1.8em;
+                  font-weight: 700;
+                }
+              }
+            }
+
+            td.rating-content {
+              width: 60%;
+              color: #6687D0;
+              line-height: 1.6;
+              font-size: 1.2em;
+            }
+
+            td.rating-date {
+              width: 20%;
+              text-align: center;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &.SettingIndexPage {
+    table.table-no-borered {
+      th, td {
+        border: none;
+      }
+    }
+  }
+
+  .panel.panel-profile {
+    margin: 20px 0;
+    box-shadow: none;
+    border-radius: 0;
+
+    .panel-heading {
+      font-size: 1.4em;
+      border-bottom: 1px solid #4C6CC6;
+
+      a.btn-caret {
+        color: #D8D8D8;
+        font-size: 13pt;
+
+        &:hover {
+          color: #434A54;
+        }
+      }
+    }
+
+    .panel-body {
+      padding: 20px 15px;
+
+      &.panel-body-background {
+        background: #F9F9F9;
+        margin-top: 20px;
+      }
+
+      .form-control-static {
+        padding: 10px 15px;
+        border-bottom: 5px solid #F0F0F0;
+      }
+
+      .control-label {
+        background: #F0F0F0;
+        text-align: left;
+        padding: 10px 20px;
+        font-weight: 100;
+        font-size: 11pt;
+      }
+
+      & > .row {
+        margin: 0 10px;
+      }
+    }
+  }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+  #profileSection.patientRatingPage .panel.panel-patient-rating {
+    padding: 0;
+  }
+
+  #profileSection.professionalWorkingPage .list-specialities .speciality-row .speciality-heading {
+    -ms-text-overflow: initial;
+    text-overflow: initial;
+    overflow: visible;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 480px) {
+  #profileSection.patientRatingPage .panel.panel-patient-rating .panel-body .list-ratings table td.rating-content {
+    font-size: 1em;
+    width: 80%;
+  }
+
+  #profileSection.patientRatingPage .panel.panel-patient-rating .panel-body .list-ratings table td.rating-date {
+    display: none;
+  }
+}

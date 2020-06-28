@@ -1,0 +1,14 @@
+*~
+.*
+!.editorconfig
+!.gitignore
+!.jshintignore
+!.jshintrc
+!.nvmrc
+!.travis.yml
+*.log
+*.sublime*
+*.swp
+
+bower_components/
+node_modules/

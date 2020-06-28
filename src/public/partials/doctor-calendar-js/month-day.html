@@ -1,0 +1,21 @@
+<div class="cal-month-day <%= cls %>">
+	<span class="pull-left" data-cal-date="<%= data_day %>" data-cal-view="day" data-toggle="tooltip" title="<%= tooltip %>">
+		<%= day %>
+	</span>
+
+	<% if (events.length > 0) { %>
+		<div class="hide events-list" data-cal-start="<%= start %>" data-cal-end="<%= end %>">
+			<% _.each(events, function(event) { %>
+				<a href="<%= event.url ? event.url : 'javascript:void(0)' %>" data-event-id="<%= event.id %>" data-event-class="<%= event['class'] %>"
+					class="pull-left event <%= event['class'] %>" data-toggle="tooltip"
+					title="<%= event.title %>"></a>
+			<% }); %>
+		</div>
+	<% } %>
+</div>
+
+<% if (events.length > 0) { %>
+	<span class="pull-right btn-add-appointment-at-calendar" title="Add an appointment in <%= data_day %>" data-appointment-date="<%= data_day %>">
+		<i class="fa fa-fw fa-plus"></i>
+	</span>
+<% } %>

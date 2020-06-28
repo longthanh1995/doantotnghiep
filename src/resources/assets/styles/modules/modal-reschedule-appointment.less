@@ -1,0 +1,47 @@
+/**
+ * - Module: Reschedule Appointment -
+ * ==================================
+ */
+
+.modal-reschedule-appointment{
+
+  .modal-body{
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  .bootbox-body{
+    position: relative;
+    
+    #form_find_timeslots{}
+
+    #list_available_timeslots{
+      .label{
+        display: inline-block;
+        margin-bottom: 4px;
+      }
+    }
+
+    #overlay_loading{
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      z-index: 2;
+
+      background-color: rgba(255,255,255,0.85);
+      background-image: none;
+
+      >i{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -14px;
+        margin-top: -14px;
+        font-size: 15px;
+      }
+    }
+  }
+}

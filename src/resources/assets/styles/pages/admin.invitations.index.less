@@ -1,0 +1,34 @@
+.label[data-type="invitation-status"][data-status="unused"]{
+  .label-info;
+}
+.label[data-type="invitation-status"][data-status="used"]{
+  .label-success;
+}
+.label[data-type="invitation-status"][data-status="deactivated"]{
+  .label-default;
+}
+
+#table_invitations{
+  tbody{
+    >tr{
+      &{
+        [data-action="activate"],
+        [data-action="deactivate"],
+        [data-action="sendEmail"]{
+          display: none;
+        }
+      }
+      &[data-status="unused"]{
+        [data-action="deactivate"],
+        [data-action="sendEmail"]{
+          display: inline-block;
+        }
+      }
+      &[data-status="deactivated"]{
+        [data-action="activate"]{
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

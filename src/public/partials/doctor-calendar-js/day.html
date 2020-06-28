@@ -1,0 +1,113 @@
+<div id="cal-day-box">
+	<div class="row-fluid clearfix cal-row-head">
+		<div class="span1 col-xs-1 cal-cell"><%= cal.locale.time %></div>
+		<div class="span11 col-xs-11 cal-cell"><%= cal.locale.events %></div>
+	</div>
+
+	<div id="cal-day-panel" class="clearfix">
+		<div id="cal-day-panel-hour">
+			<% for(i = 0; i < hours; i++){ %>
+				<div class="cal-day-hour">
+					<% for(l = 0; l < cal._hour_min(i); l++){ %>
+						<div class="row-fluid cal-day-hour-part">
+							<div class="span1 col-xs-1"><b><%= cal._hour(i, l) %></b></div>
+							<div class="span11 col-xs-11"></div>
+						</div>
+				<% }; %>
+				</div>
+			<% }; %>
+		</div>
+
+		<%
+			var temp_by_hour = {};
+			var startHour = moment(cal.options.time_start,"HH:mm").format("H");
+		%>
+
+		<% _.each(events, function(event, index){ %>
+			<%
+				temp_by_hour[event.start + event.end] = temp_by_hour[event.start + event.end] ? temp_by_hour[event.start + event.end] : 0;
+			%>
+
+			<%
+				var currentTimezone = event.timezone;
+				var currentTime = moment();
+				var startAt = moment(event.start).utcOffset(currentTimezone).tz(currentTimezone);
+				var endAt = moment(event.end).utcOffset(currentTimezone).tz(currentTimezone);
+
+				var top = startAt.clone().diff(startAt.clone().set({'hour': startHour, 'minute': 0}), 'minutes') / 5 * 60;
+				var height = endAt.diff(startAt, 'minutes') /5 * 60;
+
+				var firstAvailableAppointment = _.find(event.appointments, function(appointment){ return appointment.appointment_status.name !== 'Cancelled' && appointment.appointment_status.name !== 'Verification Failed' });
+				var isVerifying = (event.available == 0 && (firstAvailableAppointment && firstAvailableAppointment.appointment_status && firstAvailableAppointment.appointment_status.id == 1));
+
+				var tooltipContentArray = [];
+				if(firstAvailableAppointment && firstAvailableAppointment.created_at && firstAvailableAppointment.created_at.date){
+					tooltipContentArray.push('<i class="fa fa-clock-o"></i> Created at ' + _.escape(moment.tz(firstAvailableAppointment.created_at.date, 'YYYY-MM-DD HH:mm:ss', firstAvailableAppointment.created_at.timezone).utcOffset(currentTimezone).tz(currentTimezone).format('DD/MM/YYYY HH:mm')) + ' ' + _.escape(startAt.format('[GMT]Z')));
+				}
+				if(firstAvailableAppointment && firstAvailableAppointment.booker && firstAvailableAppointment.patient && firstAvailableAppointment.booker.id !== firstAvailableAppointment.patient.id){
+					tooltipContentArray.push('<i class="fa fa-user"></i> Booked by: ' + _.escape(firstAvailableAppointment.booker.first_name) + ' ' + _.escape(firstAvailableAppointment.booker.last_name) +' (' + _.escape(firstAvailableAppointment.booker.phone_country_code) + ' ' + _.escape(firstAvailableAppointment.booker.phone_number) + ')');
+				}
+				if(firstAvailableAppointment && firstAvailableAppointment.note){
+					tooltipContentArray.push('<i class="fa fa-sticky-note"></i> ' + _.escape(firstAvailableAppointment.note));
+				}
+				if(firstAvailableAppointment && firstAvailableAppointment.booking_reason){
+					tooltipContentArray.push('<i class="fa fa-calendar-check-o"></i> ' + _.escape(firstAvailableAppointment.booking_reason));
+				}
+
+				tooltipContentArray.push('<i class="fa fa-building"></i> Clinic: ' + _.escape(event.clinic.name));
+
+				var tooltipContent = tooltipContentArray.join('<br/>');
+			%>
+
+			<div class="pull-left day-event day-highlight dh-<%= event['class'] %> <%= currentTime.diff(startAt) > 0?'expired':'' %> <%= event.isBlocked?'blocked':'' %> " style="position: absolute; top: <%= top %>px; height: <%= height %>px; left: <%= temp_by_hour[event.start + event.end] * 210 + 70 %>px;"
+				 data-toggle="tooltip" title='<%= tooltipContent %>' data-html="true"
+			>
+				<!--<span class="cal-hours"><%= startAt.format('HH:mm') %> - <%= endAt.format('HH:mm') %></span>-->
+
+				<a href="<%= event.url ? event.url : 'javascript:void(0)' %>" data-event-id="<%= event.id %>"
+				   data-event-class="<%= event['class'] %>" class="event-item"
+				>
+					<% var appointmentTypeName = ''; %>
+
+					<% if(event.appointmentType && event.appointmentType.name && event.appointmentType.name.length){%>
+					<% appointmentTypeName = event.appointmentType.name; %>
+					<% } %>
+
+					<% if(firstAvailableAppointment){ %>
+					<b>
+						<%= startAt.format('HH:mm') %> - <%= endAt.format('HH:mm') %>:
+						<%= appointmentTypeName %>
+						<% if(firstAvailableAppointment.patient.national_id_number){%>
+						-
+						#<%= firstAvailableAppointment.patient.national_id_number %>
+						<% } %>
+						-
+						<%= firstAvailableAppointment.patient.name %>
+						<% if(firstAvailableAppointment.patient.phone_number){ %>
+						(<%= firstAvailableAppointment.patient.phone_country_code %> <%= firstAvailableAppointment.patient.phone_number %>)
+						<% } %>
+					<% if(firstAvailableAppointment.patient.MRID){ %>
+						(MRID: <%= firstAvailableAppointment.patient.MRID %>)
+					<% } %>
+					</b>
+
+					<% if(firstAvailableAppointment.booker && firstAvailableAppointment.patient && firstAvailableAppointment.booker.id !== firstAvailableAppointment.patient.id){ %><i class="fa fa-user"></i> Booked by: <%= firstAvailableAppointment.booker.first_name %> <%= firstAvailableAppointment.booker.last_name %> (<%= firstAvailableAppointment.booker.phone_country_code %> <%= firstAvailableAppointment.booker.phone_number %>)<% } %><% if(firstAvailableAppointment.has_patient_arrived){ %> (<i class="manadr small icon i-am-here" /> Patient has arrived)<% } %>
+
+					<% if(firstAvailableAppointment.created_at && firstAvailableAppointment.created_at.date){ %><br/><i class="fa fa-clock-o"></i> Created at <%= moment.tz(firstAvailableAppointment.created_at.date, 'YYYY-MM-DD HH:mm:ss', firstAvailableAppointment.created_at.timezone).utcOffset(currentTimezone).tz(currentTimezone).format('DD/MM/YYYY HH:mm') %><span data-timezone="<%= currentTimezone %>"><%= startAt.format('[GMT]Z') %></span><% } %>
+					<% if(firstAvailableAppointment.booking_reason){ %><i class="fa fa-calendar-check-o"></i> <%= firstAvailableAppointment.booking_reason %><% } %>
+					<% if(firstAvailableAppointment.note){ %><i class="fa fa-sticky-note"></i> <%= firstAvailableAppointment.note %><% } %>
+					<% } else { %>
+					<%= startAt.format('HH:mm') %> - <%= endAt.format('HH:mm') %><span data-timezone="<%= currentTimezone %>"> (<%= startAt.format('Z') %>)</span>:
+					<%= appointmentTypeName %>
+					<% if(event.isBlocked){ %>(Blocked)<% } %>
+					<% if(currentTime.diff(startAt) > 0){ %>(Expired)<% } %>
+					<% } %>
+				</a>
+			</div>
+
+			<%
+				temp_by_hour[event.start + event.end] ++;
+			%>
+		<% }); %>
+	</div>
+</div>

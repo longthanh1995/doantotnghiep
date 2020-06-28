@@ -1,0 +1,154 @@
+<span id="cal-slide-tick" style="display: none">
+	<i class="icon-chevron-down glyphicon glyphicon-chevron-up"></i>
+</span>
+
+<div id="cal-slide-content" class="cal-event-list">
+	<% events = _.groupBy(events, function(event) { %>
+	<%
+	var currentTimezone = event.timezone;
+	var date = moment(event.start).utcOffset(currentTimezone).tz(currentTimezone);
+
+	return date.format('YYYYMMDD');
+	%>
+	<% }) %>
+
+	<% _.each(events, function(eventsDate, date) { %>
+	<% var dateMoment = moment(date); %>
+	<% var day = dateMoment.days();%>
+
+	<div class="events-group">
+		<% var holiday = cal._getHoliday(dateMoment.toDate()); %>
+
+		<% if (day == 0 || day == 6 || holiday) {%>
+		<div class="events-heading cal-day-weekend">
+					<span
+							data-cal-date="<%= dateMoment.format('YYYY-MM-DD') %>" data-cal-view="day"
+			<% if (holiday) {%>data-toggle="tooltip" title="<%= holiday %>"<% }%>>
+			<%= dateMoment.format('dddd DD/MM') %>
+			</span>
+		</div>
+		<% } else { %>
+		<div class="events-heading">
+					<span data-cal-date="<%= dateMoment.format('YYYY-MM-DD') %>" data-cal-view="day">
+						<%= dateMoment.format('dddd DD/MM') %>
+					</span>
+		</div>
+		<% } %>
+
+			<% _.each(eventsDate, function(event) { %>
+			<%
+			var currentTimezone = event.timezone;
+			var currentTime = moment();
+			var startAt = moment(event.start).utcOffset(currentTimezone).tz(currentTimezone);
+			var endAt = moment(event.end).utcOffset(currentTimezone).tz(currentTimezone);
+			var availableActions = [];
+
+			if(event.canDelete){availableActions.push('delete');}
+			if(event.canBlock){availableActions.push('block');}
+			if(event.isBlocked){availableActions.push('unblock');}
+
+			var availableAppointments = _.filter(event.appointments, function(appointment){ return appointment.appointment_status.name !== 'Cancelled' && appointment.appointment_status.name !== 'Verification Failed' });
+			%>
+			<div class="checkbox">
+				<input type="checkbox" data-event-id="<%= event.id %>" data-action="batch" data-action-types="<%= availableActions.join(',') %>"/>
+
+				<span class="pull-left event bg-<%= event['class'] %>"></span>
+
+				<div class="timeslots">
+				<% var appointmentTypeName = ''; %>
+				<% if (availableAppointments.length){ %>
+					<% _.each(availableAppointments, function(appointment) { %>
+					<%
+						var tooltipContentArray = [];
+						if(appointment && appointment.created_at && appointment.created_at.date){
+							tooltipContentArray.push('<i class="fa fa-clock-o"></i> Created at ' + _.escape(moment.tz(appointment.created_at.date, 'YYYY-MM-DD HH:mm:ss', appointment.created_at.timezone).utcOffset(currentTimezone).tz(currentTimezone).format('DD/MM/YYYY HH:mm')) + ' ' + _.escape(startAt.format('[GMT]Z')));
+						}
+						if(appointment && appointment.booker && appointment.patient && appointment.booker.id !== appointment.patient.id){
+							tooltipContentArray.push('<i class="fa fa-user"></i> Booked by: ' + _.escape(appointment.booker.first_name) + ' ' + _.escape(appointment.booker.last_name) +' (' + _.escape(appointment.booker.phone_country_code) + ' ' + _.escape(appointment.booker.phone_number) + ')');
+						}
+						if(appointment && appointment.note){
+							tooltipContentArray.push('<i class="fa fa-sticky-note"></i> ' + _.escape(appointment.note));
+						}
+						if(appointment && appointment.booking_reason){
+							tooltipContentArray.push('<i class="fa fa-calendar-check-o"></i> ' + _.escape(appointment.booking_reason));
+						}
+			
+						tooltipContentArray.push('<i class="fa fa-building"></i> Clinic: ' + _.escape(event.clinic.name));
+
+						var tooltipContent = tooltipContentArray.join('<br/>');
+					%>
+					
+						<a href="<%= event.url ? event.url : 'javascript:void(0)' %>" data-event-id="<%= event.id %>"
+						   data-event-class="<%= event['class'] %>" class="
+							   event-item
+						       <% if(appointment.is_late) { %>text-yellow<% } %>
+							"
+						   data-toggle="tooltip" title='<%= tooltipContent %>'data-html="true">
+
+							<% if(event.appointmentType && event.appointmentType.name && event.appointmentType.name.length){%>
+							<% appointmentTypeName = event.appointmentType.name; %>
+							<% } %>
+
+							<b>
+								<% if(appointment.book_source == 'M'){ %>
+								<i class="fa fa-fw fa-mobile"></i>
+								<% } %>
+								<%= startAt.format('HH:mm') %> - <%= endAt.format('HH:mm') %>:
+								<%= appointmentTypeName %>
+								<% if(appointment.patient.national_id_number){%>
+								-
+								#<%= appointment.patient.national_id_number %>
+								<% } %>
+								-
+								<%= appointment.patient.name %>
+								<% if (appointment.patient.imported_name) { %>
+								(
+								<span data-toggle="tooltip" title="This value was imported from clinic"><i class="fa fa-sign-in"></i></span>
+								<%= appointment.patient.imported_name %>
+								)
+								<% } %>
+							<% if(appointment.patient.phone_number){ %>
+								(<%= appointment.patient.phone_country_code %> <%= appointment.patient.phone_number %>)
+							<% } %>
+							<% if(appointment.patient.MRID){ %>
+								(MRID: <%= appointment.patient.MRID %>)
+							<% } %>
+								<% if(appointment.has_patient_arrived){ %> (<i class="manadr icon i-am-here" /> Patient has arrived)<% } %>
+							</b>
+
+							<% if(appointment.booker && appointment.patient && appointment.booker.id !== appointment.patient.id){ %><br/><i class="fa fa-user"></i> Booked by: <%= appointment.booker.first_name %> <%= appointment.booker.last_name %> (<%= appointment.booker.phone_country_code %> <%= appointment.booker.phone_number %>)<% } %>
+							<% if(appointment.created_at && appointment.created_at.date){ %><br/><i class="fa fa-clock-o"></i> Created at <%= moment.tz(appointment.created_at.date, 'YYYY-MM-DD HH:mm:ss', appointment.created_at.timezone).utcOffset(currentTimezone).tz(currentTimezone).format('DD/MM/YYYY HH:mm') %> <span data-timezone="<%= currentTimezone %>"><%= startAt.format('[GMT]Z') %></span><% } %>
+							<% if(appointment.booking_reason){ %><br/><i class="fa fa-calendar-check-o"></i> <%= appointment.booking_reason %><% } %>
+							<% if(appointment.note){ %><br/><i class="fa fa-sticky-note"></i> <%= appointment.note %><% } %>
+
+						</a>
+						<br/>
+					<% }) %>
+				<% } else { %>
+					<%
+						var tooltipContent = '<i class="fa fa-building"></i> Clinic: ' + _.escape(event.clinic.name);
+					%>
+					<a href="<%= event.url ? event.url : 'javascript:void(0)' %>" data-event-id="<%= event.id %>"
+					   data-event-class="<%= event['class'] %>" class="<%= currentTime.diff(startAt) > 0?'expired':'' %> <%= event.isBlocked?'blocked':'' %> event-item"
+					   data-toggle="tooltip" title='<%= tooltipContent %>' data-html="true">
+
+						<% if(event.appointmentType && event.appointmentType.name && event.appointmentType.name.length){%>
+						<% appointmentTypeName = event.appointmentType.name; %>
+						<% } %>
+						<%= startAt.format('HH:mm') %> - <%= endAt.format('HH:mm') %><span data-timezone="<%= currentTimezone %>"> (<%= startAt.format('Z') %>)</span>:
+						<%= appointmentTypeName %>
+						<% if(event.isBlocked){ %>(Blocked: <span class="text-warning"><%= event.blockReason %></span>)<% } %>
+						<% if(currentTime.diff(startAt) > 0){ %>(Expired)<% } %>
+					</a>
+					<br/>
+				<% } %>
+				</div>
+			</div>
+			<% }) %>
+	</div>
+	<% }) %>
+</div>
+
+<script>
+	$('#cal-slide-content [data-toggle=tooltip]').tooltip();
+</script>

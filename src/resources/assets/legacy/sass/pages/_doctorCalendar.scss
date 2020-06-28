@@ -1,0 +1,385 @@
+#calendarSection {
+  padding-top: 30px;
+}
+
+#cal-slide-content {
+  box-shadow: none;
+  border-bottom: 1px solid #e1e1e1;
+  background: none;
+
+  a.event-item {
+    color: #434A54;
+
+    &.event-blocked{
+      color: #d56765;
+    }
+  }
+}
+
+.cal-row-head {
+  color: #6687D0;
+  border: 1px solid #4C6CC6;
+
+  & [class*="cal-cell"] {
+    border-right: 1px solid #e1e1e1;
+
+    &:last-child {
+      border-right: 0;
+    }
+  }
+}
+
+#cal-day-box {
+  border: 1px solid #e1e1e1;
+
+  .day-event {
+    max-width: 700px;
+    width: 700px;
+    font-size: 12px;
+  }
+
+  .cal-day-hour-part {
+    line-height: 28px;
+  }
+
+  #cal-day-panel {
+    position: relative;
+    padding: 0;
+  }
+
+  #cal-day-panel-hour {
+    position: relative;
+    width: 100%;
+    margin: 0;
+  }
+
+  .day-highlight {
+    border: none !important;
+  }
+}
+
+.cal-week-box {
+  text-wrap: none;
+
+  [data-event-class] {
+    white-space: normal;
+    height: auto;
+    margin: 1px 1px;
+    line-height: 25px;
+    text-overflow: initial;
+    overflow: hidden;
+    padding: 10px 0;
+    font-size: 12px;
+  }
+
+  .cal-row-fluid:hover {
+    background: none;
+  }
+
+  .cal-row-fluid .cal-cell1 {
+    width: 12.5%;
+  }
+
+  .cal-day-hour-part {
+    height: 30px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-bottom: thin dashed #e1e1e1;
+  }
+
+  .cal-day-hour .day-highlight {
+    height: 30px;
+  }
+
+  .cal-hours {
+    font-weight: bolder;
+  }
+
+  .cal-day-hour-part {
+    line-height: 28px;
+  }
+
+  #cal-day-panel {
+    position: relative;
+    padding: 0;
+  }
+
+  #cal-day-panel-hour {
+    position: relative;
+    width: 100%;
+    margin: 0;
+  }
+
+  .cal-day-hour:nth-child(odd) {
+    background-color: #fafafa;
+  }
+
+  .day-event {
+    position: relative;
+    max-width: 200px;
+    overflow: hidden;
+  }
+
+  .day-highlight {
+    line-height: 22px;
+    padding-left: 8px;
+    padding-right: 8px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border: 1px solid #c3c3c3;
+    margin: 1px 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 134px;
+  }
+
+  .day-highlight.dh-event-special {
+    background-color: #ffe6ff;
+  }
+
+  .day-highlight {
+    border: none !important;
+  }
+}
+
+span[data-cal-date] {
+  margin-left: 15px;
+}
+
+hr.bootstrap-calendar {
+  border-color: #4C6CC6;
+}
+
+.calendar-heading-section {
+  margin-top: 30px;
+  margin-bottom: 15px;
+
+  h3 {
+    margin: 0;
+  }
+}
+
+.calendar-filters-labels {
+  .label {
+    display: inline-block;
+    height: 22px;
+    line-height: 17px;
+    margin-top: 5px;
+    margin-right: 5px;
+  }
+}
+
+.calendar-menu {
+  a.dropdown-toggle {
+    color: #434A54;
+    opacity: 0.5;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}
+
+.events-group {
+  margin-bottom: 20px;
+
+  .events-heading {
+    margin-bottom: 10px;
+    color: #333;
+
+    span {
+      margin: 0;
+    }
+  }
+
+  ul {
+    margin-left: 20px;
+  }
+
+  a {
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+#addAvailableTimeModal {
+  .modal-body {
+    .add-available-time-row {
+      margin-bottom: 10px;
+
+      .add-available-time-row-to {
+        padding-top: 5px;
+      }
+
+      .remove-available-time {
+        font-size: 20px;
+        padding-top: 5px;
+        color: #999;
+      }
+    }
+  }
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+  #cal-day-box .day-event {
+    max-width: 500px;
+    width: 500px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  #cal-day-box .day-event {
+    max-width: 200px;
+    width: 200px;
+    font-size: 12px;
+  }
+}
+
+/**
+ * 20160816 - Grouping events into numbers
+ */
+#calendar{
+  .cal-month-box{
+    .cal-month-day{
+      .events-list{
+        >.event{
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+    }
+
+    #cal-slide-box{
+      .events-group{
+        ul{
+          li{
+            .checkbox{
+              >input[type=checkbox]{
+                margin-left: -32px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .cal-week-box{
+    #cal-day-panel{
+      .cal-cell1{
+        color: inherit;
+
+        .cal-hours{
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  .cal-year-box{
+    #cal-slide-box{
+      .events-group{
+        ul{
+          li{
+            .checkbox{
+              >input[type=checkbox]{
+                display: none;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #widget_batch_actions{
+    position: fixed;
+    top: 64px;
+    right: 16px;
+
+    //hidden by default
+    display: none;
+
+    &{
+      [data-action-type="delete"],
+      [data-action-type="block"],
+      [data-action-type="unblock"]{
+        display: none;
+      }
+    }
+
+    &[data-can-delete="1"]{
+      [data-action-type="delete"]{
+        display: inline-block;
+      }
+    }
+
+    &[data-can-block="1"]{
+      [data-action-type="block"]{
+        display: inline-block;
+      }
+    }
+
+    &[data-can-unblock="1"]{
+      [data-action-type="unblock"]{
+        display: inline-block;
+      }
+    }
+  }
+
+  #segment_loading_overlay{
+    z-index:9999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #000000;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url('../images/loading.gif');
+
+    opacity: 0.5;
+  }
+}
+
+/*
+ * Display add an appointment button at month view
+ */
+#calendar .btn-add-appointment-at-calendar {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  margin-right: 8px;
+  margin-top: 8px;
+  cursor: pointer;
+  color: #557CD6;
+}
+
+.modal-add-time-slots.modal-results{
+  .modal-body{
+    max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+}
+
+#cal-slide-tick{
+  border: 1px solid #e1e1e1;
+  border-top: 0 solid;
+  border-radius: 0 0 5px 5px;
+  text-align: center;
+  padding: 0 5px;
+  margin-left: -13px;
+  background-image: none;
+  width: auto;
+  height: auto;
+  background-color: #fff;
+  z-index: 1;
+}

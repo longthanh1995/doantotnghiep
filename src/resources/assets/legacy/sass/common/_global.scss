@@ -1,0 +1,21 @@
+$mndr_blue: #4C6CC6;
+$mndr_white: #fff;
+$mndr_blue_gray: #A1B2D5;
+
+::-webkit-scrollbar{width:5px;height:.25em;position:absolute}
+::-webkit-scrollbar-thumb{background-color:#a7adb4}
+::-webkit-scrollbar-track{background-color:rgba(0,0,0,0)}
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif !important;
+}
+
+.text-italic{
+  font-style: italic;
+}

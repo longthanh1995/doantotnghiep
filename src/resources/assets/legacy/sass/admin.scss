@@ -1,0 +1,17 @@
+@import "./../bower_components/bootstrap-sass/assets/stylesheets/bootstrap";
+
+@import "./../bower_components/font-awesome/scss/font-awesome";
+
+@import "./../bower_components/AdminLTE/dist/css/AdminLTE.min";
+
+@import "./../bower_components/AdminLTE/dist/css/skins/skin-blue.min";
+@import "./../bower_components/datatables.net-bs/css/dataTables.bootstrap.min";
+@import "./../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker3";
+
+@import "components/overlayLoading",
+        "layouts/admin",
+        "pages/admin/patients",
+        "pages/admin/patient-details",
+        "pages/admin/diagnoses",
+        "pages/admin/invitations"
+;

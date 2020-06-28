@@ -1,0 +1,18 @@
+@import "common/global";
+@import "common/variables";
+
+@import "../bower_components/Bootflat/bootflat/scss/bootflat";
+
+@import "components/buttons",
+        "components/forms",
+        "components/grid",
+        "components/dropdown",
+        "components/modal",
+        "components/datepicker",
+        "components/appointmentRow",
+        "components/select2",
+        "components/overlayLoading",
+        "pages/doctorCalendar",
+        "pages/profile",
+        "pages/appointment",
+        "layouts/appLayout";

@@ -1,0 +1,48 @@
+/**
+ * - Page: Settings -
+ * ==================
+ */
+
+.page-settings{
+  #box_appointment_types{
+
+    #form_appointment_types{
+      &{
+        .form-group{
+          margin-bottom: 0;
+        }
+        .form-control,
+        button[type=submit],
+        button[type=reset],
+        [data-action],
+        #form_appointment_types__row_add{
+          display: none;
+        }
+
+        #form_appointment_types__add__input_appointment_type{
+
+        }
+      }
+
+      &.editing{
+        .form-group{
+          margin-bottom: 15px;
+        }
+        .form-control{
+          display: block;
+        }
+        button[type=submit],
+        button[type=reset],
+        [data-action]{
+          display: inline-block;
+        }
+        .form-control-static{
+          display: none;
+        }
+        #form_appointment_types__row_add{
+          display: table-row;
+        }
+      }
+    }
+  }
+}
